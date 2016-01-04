@@ -1,0 +1,67 @@
+md "%output_folder%\%mesh_base_name%"
+set full_output_folder=%output_folder%\%mesh_base_name%
+
+echo.
+echo  ------------------------------- Baking Normal-From-Mesh -------------------------------
+%baker% normal-from-mesh --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size% --tangent-space-plugin %baker_type%  --dilation-width %dilatation%  --max-frontal %front_distance% --max-rear %back_distance% --match %match% --normal-invert %normal_invert% --highdef-mesh %hp%
+echo.
+echo.
+
+if %b_normal_world_space% == "1" (
+echo  ------------------------------- baking Normal-World-Space -------------------------------
+%baker% normal-world-space --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size%  --dilation-width %dilatation% --normal %full_output_folder%\%mesh_base_name%_normal-from-mesh.%output_format%
+echo.
+echo.
+)
+
+if %b_curvature% == "1" (
+echo  ------------------------------- baking Curvature -------------------------------
+%baker% curvature --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size%  --dilation-width %dilatation% --details %curvature_detail% --seams-power %curvature_seam% --normal %full_output_folder%\%mesh_base_name%_normal-from-mesh.%output_format%
+echo.
+echo.
+)
+
+if %b_position% == "1" (
+echo  ------------------------------- baking Position -------------------------------
+%baker% position --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size%  --dilation-width %dilatation%
+echo.
+echo.
+)
+
+if %b_thickness_from_mesh% == "1" (
+echo  ------------------------------- baking Tickness-From-Mesh -------------------------------
+%baker% thickness-from-mesh --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size% --max-frontal %front_distance% --max-rear %back_distance% --dilation-width %dilatation% --highdef-mesh %hp%
+echo.
+echo.
+)
+
+if %b_ambient_occlusion_from_mesh% == "1" (
+echo  ------------------------------- baking Ambient-Occlusion-From-Mesh -------------------------------
+%baker% ambient-occlusion-from-mesh --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size%  --dilation-width %dilatation% --max-frontal %front_distance% --max-rear %back_distance% --highdef-mesh %hp%  --max-dist %occ_max_distance% --spread-angle %occ_spread_angle% --match %match% --self-occlusion %occ_self_occlusion%
+echo.
+echo.
+)
+
+
+if %b_uv_map% == "1" (
+echo  ------------------------------- baking UV-Map -------------------------------
+%baker% uv-map --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size% --dilation-width %dilatation% --padding %dilatation%
+echo.
+echo.
+)
+
+if %b_height_from_mesh% == "1" (
+echo  ------------------------------- baking Height-From-Mesh -------------------------------
+%baker% height-from-mesh --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size% --max-frontal %front_distance% --max-rear %back_distance% --dilation-width %dilatation% --match %match% --highdef-mesh %hp%
+echo.
+echo.
+)
+
+if %b_ambient_occlusion% == "1" (
+echo  ------------------------------- baking Ambient-Occlusion -------------------------------
+%baker% ambient-occlusion --inputs %lp% --output-path %full_output_folder% --output-format %output_format% --output-size %size%  --dilation-width %dilatation% --normal %full_output_folder%\%mesh_base_name%_normal-from-mesh.%output_format%
+echo.
+echo.
+)
+
+
